@@ -1,0 +1,11 @@
+{% for field in form %}
+<div class="form-group">{{field.errors}} {{field.label_tag}} {{field}}</div>
+{% endfor %}
+<button
+  class="btn btn-{% if customer.id %}success{% else %}primary{% endif %} mt-3"
+  name="submit"
+  type="submit"
+  value="{{ customer.id }}"
+>
+  {% if customer.id %} Edit {% else %} Save {% endif %}
+</button>

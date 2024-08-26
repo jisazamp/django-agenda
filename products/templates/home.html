@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-center">My agenda</h1>
+
+<form method="post" style="max-width: 700px; margin: 0 auto;" action="{% url 'home' %}">
+  {% csrf_token %} 
+
+  {% if not form.instance.id %}
+  <div class="d-flex flex-column gap-3 p-4">
+  {% include 'save.html' %}
+  </div>
+  {% endif %}
+
+  <table class="table">
+    <thead>
+      <tr>
+        <td scope="col">Name</td>
+        <td scope="col">Email</td>
+        <td scope="col" class="text-center">Actions</td>
+      </tr>
+    </thead>
+
+    <tbody>
+    {% for customer in customers %}
+      {% if form.instance.id == customer.id %}
+      <div class="d-flex flex-column gap-3 p-4">
+        {% include 'save.html' %}
+        <a class="btn" href="{% url 'home' %}">Go back</a>
+      </div>
+
+      {% else %}
+      <tr>
+        <td>
+          {{customer.first_name}}
+        </td>
+        <td>
+          {{customer.email}}
+        </td>
+        <td class="d-flex justify-content-center gap-2">
+          <button class="btn btn-success" formnovalidate name="edit" value="{{customer.id}}">Edit</button>
+          <button class="btn btn-danger" formnovalidate name="delete" value="{{customer.id}}">Delete</button>
+        </td>
+      </tr>
+      {% endif %}
+    {% endfor %}
+    </tbody>
+  </table>
+</form>
+{% endblock %}
